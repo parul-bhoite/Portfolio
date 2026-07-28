@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #ffffff; color: #162D36; font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: #C06F52; text-decoration: none; }
+a:hover { color: #96543C; }
+::selection { background: #D8AD56; color: #162D36; }
+@keyframes pf-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes pf-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pf-float2 { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-2deg); } }
+@keyframes pf-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+</style>
+</helmet>
+<div style="overflow-x: hidden;">
+
+<nav id="pf-nav" style="position: fixed; top: 16px; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding: 0 24px; pointer-events: none;">
+  <div id="pf-nav-pill" style="pointer-events: auto; display: flex; align-items: center; gap: 28px; background: rgba(255,255,255,.72); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(22,45,54,.1); border-radius: 999px; padding: 10px 12px 10px 20px; transition: box-shadow .25s ease, background .25s ease; width: 100%; max-width: 880px; justify-content: space-between;">
+    <a href="#top" style="display: flex; align-items: center; gap: 10px; color: #162D36; font-weight: 800; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px;">
+      <span style="width: 30px; height: 30px; border-radius: 50%; background: var(--pf-accent, #C06F52); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 800;">PB</span>
+      parul.builds
+    </a>
+    <div style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600;">
+      <a href="#work" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Work</a>
+      <a href="#experience" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Experience</a>
+      <a href="#skills" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Skills</a>
+      <a href="#awards" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Awards</a>
+    </div>
+    <a href="#contact" style="background: #162D36; color: #ffffff; padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 700; transition: background .2s, transform .2s;" style-hover="background: var(--pf-accent, #C06F52); color: #ffffff; transform: translateY(-1px);">Say hello</a>
+  </div>
+</nav>
+
+<header id="top" data-screen-label="Hero" style="position: relative; padding: 170px 24px 0;">
+  <div style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <sc-if value="{{ showOpenToWork }}" hint-placeholder-val="{{ true }}">
+        <div data-reveal="0" style="display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; background: #F3EBE2; border-radius: 999px; padding: 8px 16px; font-size: 13px; font-weight: 700;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #496349; animation: pf-pulse 2s ease-in-out infinite;"></span>
+          Open to interesting problems
+        </div>
+      </sc-if>
+      <h1 data-reveal="60" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(44px, 6vw, 76px); line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance;">
+        Hey, I'm Parul. I turn <em style="font-style: normal; color: var(--pf-accent, #C06F52);">"can AI do this?"</em> into shipped systems.
+      </h1>
+      <p data-reveal="120" style="margin: 0; font-size: 18px; line-height: 1.6; color: #44585F; max-width: 540px; text-wrap: pretty;">
+        Full-stack engineer powered by generative AI — building multi-agent workflows, RAG pipelines, and the cloud-native platforms they run on. Core contributor to a Data &amp; AI Center of Excellence, based in Delhi NCR.
+      </p>
+      <div data-reveal="180" style="display: flex; align-items: center; gap: 20px; margin-top: 4px;">
+        <a href="#work" style="background: var(--pf-accent, #C06F52); color: #ffffff; padding: 15px 30px; border-radius: 999px; font-weight: 700; font-size: 15px; box-shadow: 0 10px 24px -10px var(--pf-accent, #C06F52); transition: transform .2s, box-shadow .2s;" style-hover="color: #ffffff; transform: translateY(-2px); box-shadow: 0 16px 30px -10px var(--pf-accent, #C06F52);">See the work ↓</a>
+        <a href="mailto:parulbhoite31@gmail.com" style="color: #162D36; font-weight: 700; font-size: 15px; border-bottom: 2px solid #D8AD56; padding-bottom: 2px;" style-hover="color: var(--pf-accent, #C06F52);">Get in touch</a>
+      </div>
+    </div>
+    <div data-reveal="150" style="position: relative; justify-self: center;">
+      <div style="position: absolute; inset: -28px; border-radius: 50%; background: radial-gradient(circle at 30% 20%, #F3EBE2 0%, rgba(243,235,226,0) 70%);"></div>
+      <div style="position: relative; width: min(380px, 34vw); aspect-ratio: 4/5;">
+        <image-slot id="hero-portrait" shape="rounded" radius="32" placeholder="Drop a portrait here" style="width: 100%; height: 100%;"></image-slot>
+        <div style="position: absolute; top: 18px; left: -24px; white-space: nowrap; background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.35); animation: pf-float 5s ease-in-out infinite; pointer-events: none;">🕸️ Multi-agent systems</div>
+        <div style="position: absolute; bottom: 96px; right: -12px; white-space: nowrap; background: #162D36; color: #F3EBE2; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.5); animation: pf-float2 6s ease-in-out infinite; animation-delay: .8s; pointer-events: none;">RAG · LangGraph · K8s</div>
+        <div style="position: absolute; bottom: -18px; left: 24px; background: #D8AD56; color: #162D36; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 800; box-shadow: 0 12px 28px -14px rgba(22,45,54,.4); animation: pf-float 5.5s ease-in-out infinite; animation-delay: 1.6s; pointer-events: none;">99.9% uptime club</div>
+      </div>
+    </div>
+  </div>
+  <div data-reveal="240" style="max-width: 1160px; margin: 72px auto 0; border-top: 1px solid rgba(22,45,54,.1); display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 36px 0 28px;">
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums;"><span data-count="10">0</span>+</span>
+      <span style="font-size: 13px; font-weight: 600; color: #44585F;">Enterprise AI solutions shipped</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums;"><span data-count="2000">0</span>+</span>
+      <span style="font-size: 13px; font-weight: 600; color: #44585F;">Employees served by one assistant</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums;"><span data-count="150">0</span>+</span>
+      <span style="font-size: 13px; font-weight: 600; color: #44585F;">Policy-as-code controls authored</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums;"><span data-count="70">0</span>%</span>
+      <span style="font-size: 13px; font-weight: 600; color: #44585F;">Query latency cut on flagship RAG</span>
+    </div>
+  </div>
+</header>
+
+<div data-screen-label="Tech ticker" style="background: #162D36; color: #F3EBE2; overflow: hidden; padding: 18px 0; transform: rotate(-1deg) scale(1.02); margin: 24px 0;">
+  <div style="display: flex; width: max-content; gap: 48px; animation: pf-marquee 32s linear infinite; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; white-space: nowrap;" style-hover="animation-play-state: paused;">
+    <span>LangGraph</span><span style="color: #D8AD56;">✦</span><span>Python</span><span style="color: #C06F52;">✦</span><span>Go</span><span style="color: #D8AD56;">✦</span><span>Kubernetes</span><span style="color: #C06F52;">✦</span><span>RAG</span><span style="color: #D8AD56;">✦</span><span>FastAPI</span><span style="color: #C06F52;">✦</span><span>Azure</span><span style="color: #D8AD56;">✦</span><span>LiveKit / WebRTC</span><span style="color: #C06F52;">✦</span><span>Weaviate</span><span style="color: #D8AD56;">✦</span><span>OPA / Rego</span><span style="color: #C06F52;">✦</span><span>Kafka</span><span style="color: #D8AD56;">✦</span><span>Kotlin</span><span style="color: #C06F52;">✦</span>
+    <span>LangGraph</span><span style="color: #D8AD56;">✦</span><span>Python</span><span style="color: #C06F52;">✦</span><span>Go</span><span style="color: #D8AD56;">✦</span><span>Kubernetes</span><span style="color: #C06F52;">✦</span><span>RAG</span><span style="color: #D8AD56;">✦</span><span>FastAPI</span><span style="color: #C06F52;">✦</span><span>Azure</span><span style="color: #D8AD56;">✦</span><span>LiveKit / WebRTC</span><span style="color: #C06F52;">✦</span><span>Weaviate</span><span style="color: #D8AD56;">✦</span><span>OPA / Rego</span><span style="color: #C06F52;">✦</span><span>Kafka</span><span style="color: #D8AD56;">✦</span><span>Kotlin</span><span style="color: #C06F52;">✦</span>
+  </div>
+</div>
+
+<section id="work" data-screen-label="Work" style="padding: 110px 24px 40px;">
+  <div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px;">
+    <div data-reveal="0" style="display: flex; flex-direction: column; gap: 14px; max-width: 640px;">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">The work</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4.5vw, 52px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Systems, not side projects.</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44585F; text-wrap: pretty;">Six categories of things I've designed, built, and kept alive in production. Details are generalized for confidentiality — the architecture and the impact are very real.</p>
+    </div>
+
+    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">01</span>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: #162D36; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Observability</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Multi-Agent Orchestration &amp; Observability</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">When you have a dozen AI agents talking to each other, someone needs to watch the watchers. I built the control tower — real-time tracing, telemetry for latency, throughput, token spend, and dashboards that catch agents misbehaving before users do.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">Real-time trace debugging</span>
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">Token cost telemetry</span>
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">Anomaly alerts</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>Langfuse</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Kubernetes</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Python</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Go</span>
+        </div>
+      </div>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized agent observability dashboard with traces, charts and an alert" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#ffffff"/>
+          <circle cx="26" cy="26" r="5" fill="#C06F52"/>
+          <circle cx="44" cy="26" r="5" fill="#D8AD56"/>
+          <circle cx="62" cy="26" r="5" fill="#496349"/>
+          <rect x="82" y="20" width="110" height="12" rx="6" fill="#F3EBE2"/>
+          <rect x="20" y="48" width="222" height="132" rx="12" fill="#F3EBE2"/>
+          <rect x="36" y="66" width="118" height="12" rx="6" fill="#162D36"/>
+          <rect x="58" y="88" width="92" height="12" rx="6" fill="#C06F52"/>
+          <rect x="82" y="110" width="128" height="12" rx="6" fill="#D8AD56"/>
+          <rect x="104" y="132" width="72" height="12" rx="6" fill="#496349"/>
+          <rect x="126" y="154" width="94" height="12" rx="6" fill="#C06F52" opacity=".5"/>
+          <rect x="256" y="48" width="124" height="132" rx="12" fill="#162D36"/>
+          <polyline points="272,152 292,122 310,134 330,98 348,112 366,80" fill="none" stroke="#D8AD56" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="366" cy="80" r="6" fill="#C06F52"/>
+          <line x1="52" y1="238" x2="344" y2="238" stroke="#162D36" stroke-opacity=".18" stroke-width="2"/>
+          <circle cx="70" cy="238" r="16" fill="#162D36"/><circle cx="70" cy="238" r="6" fill="#F3EBE2"/>
+          <circle cx="164" cy="238" r="16" fill="#496349"/><circle cx="164" cy="238" r="6" fill="#F3EBE2"/>
+          <circle cx="258" cy="238" r="16" fill="#D8AD56"/><circle cx="258" cy="238" r="6" fill="#162D36"/>
+          <g style="animation: pf-pulse 2s ease-in-out infinite;">
+            <circle cx="344" cy="238" r="16" fill="#C06F52"/>
+            <text x="344" y="244" text-anchor="middle" font-family="'Bricolage Grotesque', sans-serif" font-size="18" font-weight="800" fill="#ffffff">!</text>
+          </g>
+        </svg>
+      </div>
+    </article>
+
+    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">02</span>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized AI assistant chat retrieving answers from documents" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
+          <rect x="248" y="60" width="108" height="136" rx="10" fill="#D8AD56" opacity=".45" transform="rotate(5 302 128)"/>
+          <rect x="238" y="52" width="108" height="136" rx="10" fill="#ffffff"/>
+          <rect x="254" y="72" width="66" height="10" rx="5" fill="#162D36"/>
+          <rect x="254" y="92" width="76" height="8" rx="4" fill="#162D36" opacity=".3"/>
+          <rect x="254" y="108" width="58" height="8" rx="4" fill="#162D36" opacity=".3"/>
+          <rect x="254" y="124" width="70" height="8" rx="4" fill="#162D36" opacity=".3"/>
+          <rect x="254" y="140" width="48" height="8" rx="4" fill="#162D36" opacity=".3"/>
+          <circle cx="330" cy="164" r="26" fill="none" stroke="#C06F52" stroke-width="7"/>
+          <line x1="349" y1="183" x2="368" y2="202" stroke="#C06F52" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="40" cy="48" r="14" fill="#C06F52"/>
+          <text x="40" y="54" text-anchor="middle" font-size="14" fill="#ffffff">✦</text>
+          <rect x="24" y="72" width="176" height="62" rx="16" fill="#ffffff"/>
+          <rect x="42" y="88" width="122" height="10" rx="5" fill="#162D36" opacity=".85"/>
+          <rect x="42" y="106" width="88" height="10" rx="5" fill="#162D36" opacity=".35"/>
+          <path d="M200 103 C 222 103, 218 120, 238 120" fill="none" stroke="#C06F52" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round"/>
+          <rect x="58" y="150" width="142" height="48" rx="16" fill="#162D36"/>
+          <rect x="76" y="166" width="106" height="10" rx="5" fill="#F3EBE2" opacity=".9"/>
+          <rect x="24" y="214" width="86" height="38" rx="19" fill="#ffffff"/>
+          <circle cx="49" cy="233" r="5" fill="#162D36" style="animation: pf-pulse 1.4s ease-in-out infinite;"/>
+          <circle cx="67" cy="233" r="5" fill="#162D36" style="animation: pf-pulse 1.4s ease-in-out .2s infinite;"/>
+          <circle cx="85" cy="233" r="5" fill="#162D36" style="animation: pf-pulse 1.4s ease-in-out .4s infinite;"/>
+          <text x="146" y="262" font-size="20" fill="#D8AD56">✦</text>
+          <text x="364" y="44" font-size="16" fill="#C06F52">✦</text>
+        </svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: #496349; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">GenAI</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Enterprise AI Assistants — RAG + Agentic</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">An HR assistant that 2,000+ employees actually use. High-precision RAG over policy docs, multi-step agentic workflows for the gnarly questions, and semantic search that finds the right answer — not just a similar-sounding one.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">−70% response time</span>
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">−60% manual effort</span>
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">98% workflow accuracy</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>RAG</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>LangChain</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Pinecone</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>FastAPI</span>
+        </div>
+      </div>
+    </article>
+
+    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">03</span>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: #D8AD56; color: #162D36; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Platform</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Multi-Tenant AI Platforms &amp; Infrastructure</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">One platform, many AI apps. Multi-tenant architecture on AKS with secure APIs, autoscaling, and real-time voice/video via LiveKit — so interview bots and presales assistants can talk back with barely any lag. Led a 7-person team keeping it at 99.9% uptime.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">5+ AI apps hosted</span>
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">99.9% uptime</span>
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">Real-time voice &amp; video</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>Azure · AKS</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Go</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Python</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>LiveKit / WebRTC</span>
+        </div>
+      </div>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized multi-tenant platform hub with connected services and a voice waveform" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#ffffff"/>
+          <circle cx="200" cy="122" r="72" fill="none" stroke="#162D36" stroke-opacity=".12" stroke-width="2" stroke-dasharray="3 9"/>
+          <line x1="124" y1="73" x2="160" y2="100" stroke="#162D36" stroke-opacity=".25" stroke-width="2"/>
+          <line x1="276" y1="73" x2="240" y2="100" stroke="#162D36" stroke-opacity=".25" stroke-width="2"/>
+          <line x1="124" y1="205" x2="162" y2="146" stroke="#162D36" stroke-opacity=".25" stroke-width="2"/>
+          <line x1="276" y1="205" x2="238" y2="146" stroke="#162D36" stroke-opacity=".25" stroke-width="2"/>
+          <rect x="28" y="44" width="96" height="58" rx="12" fill="#F3EBE2"/>
+          <rect x="42" y="60" width="52" height="9" rx="4.5" fill="#162D36" opacity=".7"/>
+          <rect x="42" y="76" width="68" height="8" rx="4" fill="#162D36" opacity=".28"/>
+          <rect x="276" y="44" width="96" height="58" rx="12" fill="#C06F52"/>
+          <rect x="290" y="60" width="52" height="9" rx="4.5" fill="#ffffff" opacity=".9"/>
+          <rect x="290" y="76" width="68" height="8" rx="4" fill="#ffffff" opacity=".45"/>
+          <rect x="28" y="196" width="96" height="58" rx="12" fill="#D8AD56"/>
+          <rect x="42" y="212" width="52" height="9" rx="4.5" fill="#162D36" opacity=".75"/>
+          <rect x="42" y="228" width="68" height="8" rx="4" fill="#162D36" opacity=".35"/>
+          <rect x="276" y="196" width="96" height="58" rx="12" fill="#496349"/>
+          <rect x="290" y="212" width="52" height="9" rx="4.5" fill="#F3EBE2" opacity=".9"/>
+          <rect x="290" y="228" width="68" height="8" rx="4" fill="#F3EBE2" opacity=".45"/>
+          <circle cx="200" cy="122" r="46" fill="#162D36"/>
+          <line x1="214" y1="122" x2="238" y2="122" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <line x1="207" y1="110" x2="219" y2="89" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <line x1="193" y1="110" x2="181" y2="89" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <line x1="186" y1="122" x2="162" y2="122" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <line x1="193" y1="134" x2="181" y2="155" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <line x1="207" y1="134" x2="219" y2="155" stroke="#F3EBE2" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="200" cy="122" r="10" fill="#F3EBE2"/>
+          <rect x="140" y="252" width="8" height="16" rx="4" fill="#C06F52"/>
+          <rect x="158" y="240" width="8" height="28" rx="4" fill="#D8AD56"/>
+          <rect x="176" y="226" width="8" height="42" rx="4" fill="#496349"/>
+          <rect x="194" y="238" width="8" height="30" rx="4" fill="#C06F52"/>
+          <rect x="212" y="220" width="8" height="48" rx="4" fill="#D8AD56"/>
+          <rect x="230" y="244" width="8" height="24" rx="4" fill="#496349"/>
+          <rect x="248" y="254" width="8" height="14" rx="4" fill="#C06F52"/>
+          <rect x="28" y="122" width="64" height="30" rx="15" fill="#162D36"/>
+          <text x="60" y="142" text-anchor="middle" font-family="'Manrope', sans-serif" font-size="13" font-weight="700" fill="#F3EBE2">99.9%</text>
+        </svg>
+      </div>
+    </article>
+
+    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">04</span>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized risk map with location pins, a scoring gauge and an audit checklist" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
+          <rect x="24" y="36" width="200" height="164" rx="14" fill="#ffffff"/>
+          <line x1="24" y1="90" x2="224" y2="90" stroke="#162D36" stroke-opacity=".07" stroke-width="2"/>
+          <line x1="24" y1="145" x2="224" y2="145" stroke="#162D36" stroke-opacity=".07" stroke-width="2"/>
+          <line x1="90" y1="36" x2="90" y2="200" stroke="#162D36" stroke-opacity=".07" stroke-width="2"/>
+          <line x1="155" y1="36" x2="155" y2="200" stroke="#162D36" stroke-opacity=".07" stroke-width="2"/>
+          <path d="M32 176 C 80 150, 90 90, 140 74 S 205 60, 218 46" stroke="#D8AD56" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="150" cy="120" r="34" fill="#C06F52" opacity=".16"/>
+          <circle cx="150" cy="120" r="18" fill="#C06F52" opacity=".26"/>
+          <path d="M150 96 c-11 0 -19 8 -19 19 c0 13 19 29 19 29 c0 0 19 -16 19 -29 c0 -11 -8 -19 -19 -19 z" fill="#C06F52"/>
+          <circle cx="150" cy="114" r="6" fill="#ffffff"/>
+          <path d="M74 128 c-9 0 -16 7 -16 16 c0 11 16 24 16 24 c0 0 16 -13 16 -24 c0 -9 -7 -16 -16 -16 z" fill="#496349"/>
+          <circle cx="74" cy="145" r="5" fill="#ffffff"/>
+          <path d="M246 140 A56 56 0 0 1 274 91.5" stroke="#496349" stroke-width="16" fill="none" stroke-linecap="round"/>
+          <path d="M274 91.5 A56 56 0 0 1 330 91.5" stroke="#D8AD56" stroke-width="16" fill="none"/>
+          <path d="M330 91.5 A56 56 0 0 1 358 140" stroke="#C06F52" stroke-width="16" fill="none" stroke-linecap="round"/>
+          <line x1="302" y1="140" x2="330" y2="112" stroke="#162D36" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="302" cy="140" r="8" fill="#162D36"/>
+          <rect x="248" y="180" width="118" height="80" rx="12" fill="#ffffff"/>
+          <circle cx="268" cy="202" r="10" fill="#496349"/>
+          <path d="M263 202 L267 206 L274 197" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="286" y="196" width="64" height="10" rx="5" fill="#162D36" opacity=".75"/>
+          <rect x="264" y="222" width="86" height="8" rx="4" fill="#162D36" opacity=".3"/>
+          <rect x="264" y="238" width="64" height="8" rx="4" fill="#162D36" opacity=".3"/>
+        </svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: var(--pf-accent, #C06F52); color: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Decision AI</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">AI-Powered Decision Intelligence</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">A real-time underwriting engine that blends geospatial signals with LLM reasoning to score natural-catastrophe risk. Every decision is explainable and audit-ready — because "the model said so" doesn't fly with regulators.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">78% accuracy · 80+ scenarios</span>
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">10,000+ records</span>
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">Audit-ready outputs</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>LLMs</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Geospatial APIs</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Kubernetes</span>
+        </div>
+      </div>
+    </article>
+
+    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">05</span>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: #162D36; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Security</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Cloud Security &amp; Kubernetes Compliance</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">Policy-as-code that scales. I authored 150+ OPA/Rego controls for RBAC, posture management, and security baselines — then built the enforcement engine that made them stick across client environments.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">150+ compliance policies</span>
+          <span style="background: #ffffff; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #496349;">Enterprise-wide adoption</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>Go</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>OPA / Rego</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Kubernetes</span>
+        </div>
+      </div>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized security shield beside a policy checklist" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#ffffff"/>
+          <circle cx="118" cy="140" r="84" fill="#F3EBE2"/>
+          <path d="M118 62 L172 82 L172 142 C172 182 150 208 118 222 C86 208 64 182 64 142 L64 82 Z" fill="#162D36"/>
+          <path d="M94 140 L112 160 L146 116" stroke="#D8AD56" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="36" y="60" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#C06F52">{ }</text>
+          <rect x="224" y="48" width="152" height="204" rx="14" fill="#F3EBE2"/>
+          <rect x="240" y="66" width="84" height="12" rx="6" fill="#162D36"/>
+          <circle cx="250" cy="106" r="10" fill="#496349"/>
+          <path d="M245 106 L249 110 L256 101" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="268" y="100" width="92" height="10" rx="5" fill="#162D36" opacity=".4"/>
+          <circle cx="250" cy="142" r="10" fill="#496349"/>
+          <path d="M245 142 L249 146 L256 137" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="268" y="136" width="76" height="10" rx="5" fill="#162D36" opacity=".4"/>
+          <circle cx="250" cy="178" r="10" fill="#C06F52"/>
+          <path d="M246 174 L254 182 M254 174 L246 182" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+          <rect x="268" y="172" width="84" height="10" rx="5" fill="#162D36" opacity=".4"/>
+          <rect x="240" y="214" width="58" height="24" rx="12" fill="#162D36"/>
+          <text x="269" y="230" text-anchor="middle" font-family="'Manrope', sans-serif" font-size="12" font-weight="700" fill="#F3EBE2">rego</text>
+        </svg>
+      </div>
+    </article>
+
+    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">06</span>
+      <div style="aspect-ratio: 4/3; position: relative;">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Stylized mobile app for vehicle service operations" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
+          <rect x="146" y="24" width="118" height="252" rx="26" fill="#162D36"/>
+          <rect x="154" y="32" width="102" height="236" rx="19" fill="#ffffff"/>
+          <path d="M154 51 C154 40.5 162.5 32 173 32 L237 32 C247.5 32 256 40.5 256 51 L256 78 L154 78 Z" fill="#C06F52"/>
+          <rect x="185" y="38" width="40" height="6" rx="3" fill="#162D36" opacity=".35"/>
+          <rect x="168" y="56" width="56" height="9" rx="4.5" fill="#ffffff" opacity=".85"/>
+          <rect x="166" y="92" width="78" height="44" rx="10" fill="#F3EBE2"/>
+          <rect x="176" y="102" width="40" height="8" rx="4" fill="#162D36" opacity=".7"/>
+          <rect x="176" y="116" width="56" height="7" rx="3.5" fill="#162D36" opacity=".3"/>
+          <rect x="166" y="146" width="78" height="44" rx="10" fill="#F3EBE2"/>
+          <rect x="176" y="156" width="46" height="8" rx="4" fill="#162D36" opacity=".7"/>
+          <rect x="176" y="170" width="52" height="7" rx="3.5" fill="#162D36" opacity=".3"/>
+          <rect x="166" y="202" width="78" height="10" rx="5" fill="#162D36" opacity=".12"/>
+          <rect x="166" y="202" width="48" height="10" rx="5" fill="#496349"/>
+          <path d="M154 234 L256 234 L256 249 C256 259.5 247.5 268 237 268 L173 268 C162.5 268 154 259.5 154 249 Z" fill="#F3EBE2"/>
+          <circle cx="180" cy="251" r="5" fill="#C06F52"/>
+          <circle cx="205" cy="251" r="5" fill="#162D36" opacity=".25"/>
+          <circle cx="230" cy="251" r="5" fill="#162D36" opacity=".25"/>
+          <g style="animation: pf-float 5s ease-in-out infinite;">
+            <circle cx="296" cy="84" r="26" fill="#D8AD56"/>
+            <text x="296" y="93" text-anchor="middle" font-size="24">🔧</text>
+          </g>
+          <g style="animation: pf-float2 6s ease-in-out infinite;">
+            <rect x="30" y="150" width="96" height="36" rx="18" fill="#ffffff"/>
+            <circle cx="52" cy="168" r="8" fill="#496349"/>
+            <path d="M48 168 L51 171 L57 164" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="66" y="163" width="46" height="10" rx="5" fill="#162D36" opacity=".55"/>
+          </g>
+          <path d="M296 216 a26 26 0 0 1 26 26" stroke="#C06F52" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M296 230 a12 12 0 0 1 12 12" stroke="#C06F52" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="296" cy="242" r="4" fill="#C06F52"/>
+        </svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="align-self: flex-start; background: #496349; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Mobile</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Enterprise Mobile Applications</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #44585F; text-wrap: pretty;">A production Android app for vehicle service operations — Kotlin, Jetpack Compose, MVVM, real-time backend integration. Because sometimes the AI needs a well-built front door too.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">Shipped to production</span>
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #96543C;">Improved service ops</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(22,45,54,.12); padding-top: 16px; font-size: 13px; font-weight: 600; color: #44585F;">
+          <span>Kotlin</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>Jetpack Compose</span><span style="color: var(--pf-accent, #C06F52);">·</span><span>MVVM</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="experience" data-screen-label="Experience" style="padding: 110px 24px;">
+  <div style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start;">
+    <div data-reveal="0" style="display: flex; flex-direction: column; gap: 14px; position: sticky; top: 120px;">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">The journey</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Where I've been building.</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #44585F; text-wrap: pretty;">From late-night college hackathons to a Data &amp; AI Center of Excellence — the through-line is shipping things people rely on.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0;">
+      <div data-reveal="0" style="display: grid; grid-template-columns: 24px 1fr; gap: 24px;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <span style="width: 14px; height: 14px; border-radius: 50%; background: var(--pf-accent, #C06F52); border: 3px solid #F3EBE2; box-shadow: 0 0 0 1px var(--pf-accent, #C06F52); flex-shrink: 0; margin-top: 6px;"></span>
+          <span style="width: 2px; flex: 1; background: linear-gradient(#C06F52, rgba(22,45,54,.12));"></span>
+        </div>
+        <div style="padding-bottom: 48px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+            <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800;">Xebia IT Architects</h3>
+            <span style="background: #F3EBE2; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700;">Mar 2023 — Present</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: #496349;">Junior Consultant · Generative AI &amp; Platform Engineering, Data &amp; AI CoE</p>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.6; color: #44585F;">
+            <li>Architected and delivered <strong style="color: #162D36;">10+ enterprise AI solutions</strong>, accelerating GenAI adoption across stakeholders.</li>
+            <li>Led the multi-tenant XChat platform on Kubernetes &amp; Azure — 5+ AI microservices with monitoring and autoscaling.</li>
+            <li>Owned the AI HR Assistant end-to-end: <strong style="color: #162D36;">−70% query latency, −60% manual HR effort</strong> for 2,000+ employees.</li>
+            <li>Wired LiveKit (WebRTC) into the stack for real-time voice/video AI assistant experiences.</li>
+            <li>Hardened Kubernetes security with <strong style="color: #162D36;">150+ OPA/Rego controls</strong> for RBAC and posture baselines.</li>
+            <li>Shipped a production Android app (Kotlin, Jetpack Compose) for vehicle service operations.</li>
+          </ul>
+        </div>
+      </div>
+      <div data-reveal="60" style="display: grid; grid-template-columns: 24px 1fr; gap: 24px;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <span style="width: 14px; height: 14px; border-radius: 50%; background: #D8AD56; border: 3px solid #F3EBE2; box-shadow: 0 0 0 1px #D8AD56; flex-shrink: 0; margin-top: 6px;"></span>
+          <span style="width: 2px; flex: 1; background: rgba(22,45,54,.12);"></span>
+        </div>
+        <div style="padding-bottom: 48px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+            <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800;">Freelance &amp; Open Source</h3>
+            <span style="background: #F3EBE2; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700;">2021 — 2023</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: #496349;">Full-Stack Developer (while studying)</p>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.6; color: #44585F;">
+            <li>Built web apps and REST APIs for small businesses with Python (Django, Flask) and modern JS.</li>
+            <li>Contributed to open-source developer tooling and prototyped early LLM-powered utilities.</li>
+            <li>Won a university hackathon with a real-time campus-services app — first taste of shipping under pressure.</li>
+          </ul>
+        </div>
+      </div>
+      <div data-reveal="120" style="display: grid; grid-template-columns: 24px 1fr; gap: 24px;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <span style="width: 14px; height: 14px; border-radius: 50%; background: #496349; border: 3px solid #F3EBE2; box-shadow: 0 0 0 1px #496349; flex-shrink: 0; margin-top: 6px;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+            <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800;">JECRC University, Jaipur</h3>
+            <span style="background: #F3EBE2; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700;">2019 — 2023</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: #496349;">B.Tech, Computer Science</p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #44585F;">Where the systems-thinking habit started — and where I learned that the demo working once is not the same as the demo working.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" data-screen-label="Skills" style="padding: 100px 24px; background: #F3EBE2;">
+  <div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px;">
+    <div data-reveal="0" style="display: flex; flex-direction: column; gap: 14px; max-width: 620px;">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">The toolkit</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Full stack, plus the AI layer on top.</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div data-reveal="0" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--pf-accent, #C06F52);"></span>GenAI &amp; Agentic Systems</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">RAG</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">LangGraph</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">LangChain</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">LlamaIndex</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">CrewAI</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">MCP · A2A</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">OpenAI APIs</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Weaviate</span>
+        </div>
+      </div>
+      <div data-reveal="60" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #496349;"></span>Backend Engineering</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Go</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Python</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">FastAPI</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Django · Flask</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">GraphQL · REST</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Microservices</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Java</span>
+        </div>
+      </div>
+      <div data-reveal="120" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #D8AD56;"></span>Cloud, DevOps &amp; Streaming</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Kubernetes</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Docker</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Azure · AWS</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">GitHub Actions</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">GitLab CI/CD</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Kafka</span>
+        </div>
+      </div>
+      <div data-reveal="0" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #162D36;"></span>Real-Time Systems</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">LiveKit</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">WebRTC</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Real-time audio</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Low-latency streaming</span>
+        </div>
+      </div>
+      <div data-reveal="60" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #96543C;"></span>Data</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">PostgreSQL</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">MongoDB</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Redis</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Databricks</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Unity Catalog</span>
+        </div>
+      </div>
+      <div data-reveal="120" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #6B8E6B;"></span>Mobile &amp; More</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
+          <span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Kotlin</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Jetpack Compose</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">MVVM</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">System design</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">Observability</span><span style="background: #F3EBE2; border-radius: 999px; padding: 6px 12px;">OPA / Rego</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards" data-screen-label="Awards" style="padding: 110px 24px;">
+  <div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px;">
+    <div data-reveal="0" style="display: flex; flex-direction: column; gap: 14px; max-width: 620px;">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">Nice things people said</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Recognition along the way.</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div data-reveal="0" style="border: 1px solid rgba(22,45,54,.1); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s ease, box-shadow .25s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 20px 40px -22px rgba(22,45,54,.3);">
+        <span style="width: 44px; height: 44px; border-radius: 50%; background: #D8AD56; display: grid; place-items: center; font-size: 20px;">🏆</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800;">Maestro Award — Best Contributor</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #44585F;">For delivering high-impact GenAI solutions with exceptional ownership.</p>
+      </div>
+      <div data-reveal="60" style="border: 1px solid rgba(22,45,54,.1); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s ease, box-shadow .25s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 20px 40px -22px rgba(22,45,54,.3);">
+        <span style="width: 44px; height: 44px; border-radius: 50%; background: #F3EBE2; display: grid; place-items: center; font-size: 20px;">💎</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800;">2× GEM Award</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #44585F;">Recognized twice for consistent innovation and high-quality engineering execution.</p>
+      </div>
+      <div data-reveal="120" style="border: 1px solid rgba(22,45,54,.1); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s ease, box-shadow .25s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 20px 40px -22px rgba(22,45,54,.3);">
+        <span style="width: 44px; height: 44px; border-radius: 50%; background: #496349; display: grid; place-items: center; font-size: 20px;">🤝</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800;">Team Excellence Recognition</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #44585F;">For significant contributions across Generative AI and Platform Engineering initiatives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="background: #162D36; color: #F3EBE2; padding: 110px 24px 0; margin: 0 16px 16px; border-radius: 32px;">
+  <div style="max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; align-items: center; text-align: center; padding-bottom: 80px;">
+    <span data-reveal="0" style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #D8AD56;">Let's talk</span>
+    <h2 data-reveal="60" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(40px, 5.5vw, 68px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; max-width: 800px; text-wrap: balance;">Got a hard problem? I collect those.</h2>
+    <p data-reveal="120" style="margin: 0; font-size: 17px; line-height: 1.6; color: rgba(243,235,226,.75); max-width: 520px; text-wrap: pretty;">Whether it's a multi-agent system that needs taming or a platform that needs to scale — my inbox is open.</p>
+    <div data-reveal="180" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center;">
+      <a href="mailto:parulbhoite31@gmail.com" style="background: var(--pf-accent, #C06F52); color: #ffffff; padding: 16px 34px; border-radius: 999px; font-weight: 700; font-size: 16px; transition: transform .2s, background .2s;" style-hover="color: #ffffff; transform: translateY(-2px); background: #96543C;">parulbhoite31@gmail.com</a>
+      <a href="https://linkedin.com/in/parul-bhoite" target="_blank" rel="noopener" style="color: #F3EBE2; font-weight: 700; font-size: 15px; border: 1px solid rgba(243,235,226,.3); padding: 15px 28px; border-radius: 999px; transition: border-color .2s, background .2s;" style-hover="color: #F3EBE2; border-color: #D8AD56; background: rgba(216,173,86,.1);">LinkedIn ↗</a>
+    </div>
+  </div>
+  <footer style="border-top: 1px solid rgba(243,235,226,.15); padding: 24px 0; max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: rgba(243,235,226,.6);">
+    <span>© {{ year }} Parul Bhoite · Delhi NCR</span>
+    <span style="display: flex; gap: 20px;">
+      <a href="mailto:parulbhoite31@gmail.com" style="color: rgba(243,235,226,.75);" style-hover="color: #D8AD56;">Email</a>
+      <a href="https://linkedin.com/in/parul-bhoite" target="_blank" rel="noopener" style="color: rgba(243,235,226,.75);" style-hover="color: #D8AD56;">LinkedIn</a>
+      <a href="tel:+919399878492" style="color: rgba(243,235,226,.75);" style-hover="color: #D8AD56;">+91 93998 78492</a>
+    </span>
+  </footer>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accent&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;terracotta&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;terracotta&quot;, &quot;forest&quot;, &quot;mustard&quot;], &quot;section&quot;: &quot;Theme&quot; },
+  &quot;showOpenToWork&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot; },
+  &quot;reduceMotion&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      year: new Date().getFullYear(),
+      showOpenToWork: this.props.showOpenToWork ?? true,
+    };
+  }
+  componentDidMount() {
+    this.applyAccent();
+    const reduce = (this.props.reduceMotion ?? false) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) {
+      const els = document.querySelectorAll('[data-reveal]');
+      els.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(22px)';
+        el.style.transition = 'opacity .65s cubic-bezier(.2,.7,.3,1), transform .65s cubic-bezier(.2,.7,.3,1)';
+      });
+      this._io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const delay = +(e.target.getAttribute('data-reveal') || 0);
+          setTimeout(() => { e.target.style.opacity = '1'; e.target.style.transform = 'none'; }, delay);
+          this._io.unobserve(e.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+      els.forEach(el => this._io.observe(el));
+    }
+    // number roll-up counters
+    const counters = document.querySelectorAll('[data-count]');
+    this._cio = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        this._cio.unobserve(e.target);
+        const target = +e.target.getAttribute('data-count');
+        if (reduce) { e.target.textContent = target.toLocaleString(); return; }
+        const t0 = performance.now(), dur = 800;
+        const tick = now => {
+          const p = Math.min(1, (now - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          e.target.textContent = Math.round(target * eased).toLocaleString();
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(el => this._cio.observe(el));
+    // nav shadow on scroll
+    this._onScroll = () => {
+      const pill = document.getElementById('pf-nav-pill');
+      if (!pill) return;
+      const on = window.scrollY > 40;
+      pill.style.boxShadow = on ? '0 12px 32px -16px rgba(22,45,54,.35)' : 'none';
+      pill.style.background = on ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.72)';
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    if (this._cio) this._cio.disconnect();
+    window.removeEventListener('scroll', this._onScroll);
+  }
+  applyAccent() {
+    const map = { terracotta: '#C06F52', forest: '#496349', mustard: '#D8AD56' };
+    document.documentElement.style.setProperty('--pf-accent', map[this.props.accent] || map.terracotta);
+  }
+}
+</script>
+</body>
+</html>
