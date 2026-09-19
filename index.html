@@ -35,20 +35,27 @@ a:hover { color: #96543C; }
   [data-rsp="case"] { grid-template-columns: 1fr !important; gap: 32px !important; padding: 36px !important; }
   [data-rsp="cards3"] { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important; }
 }
-@media (max-width: 760px) {
+/* The inline link row needs ~770px of its own. Below 1025px the pill cannot
+   give it that with any margin to spare (at 800px the slack is 2px, which one
+   font-metric difference turns into a clipped row), so it becomes a burger. */
+@media (max-width: 1024px) {
   #pf-nav { padding: 0 14px !important; }
   #pf-nav-pill { position: relative; }
   #pf-nav-burger { display: flex !important; }
   #pf-nav-links {
     display: none !important;
     position: absolute; top: calc(100% + 12px); left: 0; right: 0;
-    flex-direction: column !important; align-items: stretch !important; gap: 2px !important;
+    flex-direction: row !important; align-items: center !important; gap: 2px !important;
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
     background: #ffffff; z-index: 2;
-    border: 1px solid rgba(22,45,54,.1); border-radius: 20px; padding: 8px;
+    border: 1px solid rgba(22,45,54,.1); border-radius: 999px; padding: 7px 10px;
     box-shadow: 0 24px 48px -24px rgba(22,45,54,.4);
   }
+  #pf-nav-links::-webkit-scrollbar { display: none; }
   #pf-nav-pill[data-open="true"] #pf-nav-links { display: flex !important; }
-  #pf-nav-links a { padding: 12px 14px !important; }
+  /* links keep their width and scroll sideways rather than squashing */
+  #pf-nav-links a { flex: 0 0 auto; white-space: nowrap; padding: 10px 14px !important; }
   /* keep the pill on one line: logo + burger + CTA */
   #pf-nav-pill { gap: 10px !important; padding: 8px 8px 8px 14px !important; }
   #pf-nav-pill > a[href="#contact"] { white-space: nowrap; padding: 9px 15px !important; font-size: 13px !important; }
@@ -800,8 +807,11 @@ class Component extends DCLogic {
         burger.focus();
       };
       document.addEventListener('keydown', this._navEsc);
-      // never leave it stuck open when it widens back to the inline row
-      this._navResize = () => { if (innerWidth > 760) this._setNav(false); };
+      // never leave it stuck open when it widens back to the inline row.
+      // Reads the burger's own visibility so the breakpoint lives only in CSS.
+      this._navResize = () => {
+        if (getComputedStyle(burger).display === 'none') this._setNav(false);
+      };
       window.addEventListener('resize', this._navResize);
     }
     // nav shadow on scroll
