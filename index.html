@@ -457,7 +457,8 @@ a:hover { color: #96543C; }
   <div style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; align-items: center;">
     <div data-reveal="0" style="position: relative;">
       <div style="position: absolute; inset: -14px -14px 12px 12px; border-radius: 28px; border: 1.5px solid rgba(216,173,86,.55); pointer-events: none;"></div>
-      <video controls playsinline preload="metadata" src="./assets/parul-xebia-interview.mp4" poster="./assets/parul-xebia-interview-poster.jpg" style="position: relative; display: block; width: 100%; aspect-ratio: 16/9; border-radius: 24px; background: #0E1D24; box-shadow: 0 30px 60px -28px rgba(0,0,0,.65);"></video>
+      <video id="pf-reel" playsinline preload="metadata" disablepictureinpicture src="./assets/parul-xebia-interview.mp4" poster="./assets/parul-xebia-interview-poster.jpg" style="position: relative; display: block; width: 100%; aspect-ratio: 16/9; border-radius: 24px; background: #0E1D24; box-shadow: 0 30px 60px -28px rgba(0,0,0,.65); cursor: pointer;"></video>
+      <button id="pf-reel-sound" type="button" aria-label="Turn sound on" style="position: absolute; right: 14px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(243,235,226,.28); background: rgba(14,29,36,.72); backdrop-filter: blur(8px); color: #F3EBE2; border-radius: 999px; padding: 8px 15px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s ease, border-color .2s ease;" style-hover="background: rgba(14,29,36,.92); border-color: rgba(216,173,86,.65);"><span id="pf-reel-sound-icon" aria-hidden="true">🔇</span><span id="pf-reel-sound-label">Sound off</span></button>
     </div>
     <div data-reveal="80" style="display: flex; flex-direction: column; gap: 18px;">
       <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #D8AD56;">On camera</span>
@@ -466,6 +467,7 @@ a:hover { color: #96543C; }
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         <span style="background: rgba(243,235,226,.1); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #F3EBE2;">1:27</span>
         <span style="background: rgba(243,235,226,.1); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #F3EBE2;">Captioned</span>
+        <span style="background: rgba(243,235,226,.1); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #F3EBE2;">Tap for sound</span>
         <span style="background: rgba(243,235,226,.1); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #F3EBE2;">Filmed by Xebia</span>
       </div>
       <a href="https://www.linkedin.com/feed/update/urn:li:activity:7430806203632418816/" target="_blank" rel="noopener" style="align-self: flex-start; font-size: 14px; font-weight: 800; color: #D8AD56; border-bottom: 2px solid rgba(216,173,86,.45); padding-bottom: 2px;" style-hover="color: #F3EBE2; border-color: #F3EBE2;">See the original post ↗</a>
@@ -665,6 +667,56 @@ class Component extends DCLogic {
       });
     }, { threshold: 0.4 });
     counters.forEach(el => this._cio.observe(el));
+    // on-camera reel: silent autoplay, click or button for sound
+    this._soundOn = false;
+    this.syncReel();
+    const reel = document.getElementById('pf-reel');
+    const reelBtn = document.getElementById('pf-reel-sound');
+    if (reel && reelBtn) {
+      this._toggleSound = e => {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        this._soundOn = !this._soundOn;
+        if (this._soundOn) reel.currentTime = 0;
+        this.syncReel();
+        reel.play().catch(() => {});
+      };
+      reelBtn.addEventListener('click', this._toggleSound);
+      this._reelClick = () => { if (!this._soundOn) this._toggleSound(); };
+      reel.addEventListener('click', this._reelClick);
+      // a re-render can flip muted back on; heal it whenever it diverges
+      this._reelHeal = () => { if (reel.muted !== !this._soundOn) this.syncReel(); };
+      reel.addEventListener('volumechange', this._reelHeal);
+      reel.addEventListener('play', this._reelHeal);
+      reel.addEventListener('loadeddata', this._reelHeal);
+      requestAnimationFrame(() => this.syncReel());
+      // warm the file up just before the section arrives, so the first frame
+      // is ready the moment it scrolls into view
+      this._pio = new IntersectionObserver(entries => {
+        if (!entries.some(e => e.isIntersecting)) return;
+        this._pio.disconnect();
+        this._pio = null;
+        reel.preload = 'auto';
+        reel.load();
+      }, { rootMargin: '700px 0px' });
+      this._pio.observe(reel);
+      // playback follows the scroll: starts on arrival, pauses on the way out
+      this._rio = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            if (reduce) return;
+            this.syncReel();
+            reel.play().catch(() => {});
+          } else {
+            // out of sight, including with sound on — no audio trailing the
+            // visitor down the page from a control they can no longer see
+            reel.pause();
+          }
+        });
+      }, { threshold: 0.3 });
+      this._rio.observe(reel);
+      // someone who asked for less motion gets a still frame and a play button
+      if (reduce) { reel.controls = true; this._reduceReel = true; }
+    }
     // nav shadow on scroll
     this._onScroll = () => {
       const pill = document.getElementById('pf-nav-pill');
@@ -676,10 +728,28 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     this._onScroll();
   }
-  componentDidUpdate() { this.applyAccent(); }
+  componentDidUpdate() { this.applyAccent(); this.syncReel(); }
+  syncReel() {
+    // the runtime renders through React, which resets muted/loop from the bare
+    // HTML attributes on every re-render — so own them here instead.
+    const reel = document.getElementById('pf-reel');
+    if (!reel) return;
+    const on = !!this._soundOn;
+    reel.muted = !on;
+    reel.loop = !on;
+    reel.controls = on || !!this._reduceReel;
+    const btn = document.getElementById('pf-reel-sound');
+    if (btn) btn.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+    const icon = document.getElementById('pf-reel-sound-icon');
+    if (icon) icon.textContent = on ? '🔊' : '🔇';
+    const label = document.getElementById('pf-reel-sound-label');
+    if (label) label.textContent = on ? 'Sound on' : 'Sound off';
+  }
   componentWillUnmount() {
     if (this._io) this._io.disconnect();
     if (this._cio) this._cio.disconnect();
+    if (this._rio) this._rio.disconnect();
+    if (this._pio) this._pio.disconnect();
     window.removeEventListener('scroll', this._onScroll);
   }
   applyAccent() {
