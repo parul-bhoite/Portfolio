@@ -41,7 +41,9 @@ a:hover { color: #96543C; }
 @media (max-width: 1024px) {
   #pf-nav { padding: 0 14px !important; }
   #pf-nav-pill { position: relative; }
-  #pf-nav-burger { display: flex !important; }
+  /* burger sits in the left corner, logo beside it, CTA stays right */
+  #pf-nav-burger { display: flex !important; order: -1; }
+  #pf-nav-pill > a[href="#top"] { margin-right: auto; }
   #pf-nav-links {
     display: none !important;
     position: absolute; top: calc(100% + 12px); left: 0; right: 0;
@@ -57,7 +59,7 @@ a:hover { color: #96543C; }
   /* links keep their width and scroll sideways rather than squashing */
   #pf-nav-links a { flex: 0 0 auto; white-space: nowrap; padding: 10px 14px !important; }
   /* keep the pill on one line: logo + burger + CTA */
-  #pf-nav-pill { gap: 10px !important; padding: 8px 8px 8px 14px !important; }
+  #pf-nav-pill { gap: 10px !important; padding: 8px !important; }
   #pf-nav-pill > a[href="#contact"] { white-space: nowrap; padding: 9px 15px !important; font-size: 13px !important; }
 }
 @media (max-width: 640px) {
