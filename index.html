@@ -22,6 +22,65 @@ a:hover { color: #96543C; }
 @keyframes pf-float2 { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-2deg); } }
 @keyframes pf-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
 @keyframes pf-spin { to { transform: rotate(360deg); } }
+
+/* ---------- responsive ----------
+   Layout lives in inline style attributes, which outrank any stylesheet rule,
+   so every override below has to be !important. Hooks are data-rsp markers. */
+@media (max-width: 1024px) {
+  [data-rsp="split"] { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+@media (max-width: 900px) {
+  [data-rsp="hero"] { grid-template-columns: 1fr !important; gap: 40px !important; }
+  [data-rsp="portrait"] { width: min(340px, 68vw) !important; }
+  [data-rsp="case"] { grid-template-columns: 1fr !important; gap: 32px !important; padding: 36px !important; }
+  [data-rsp="cards3"] { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important; }
+}
+/* The inline link row needs ~770px of its own. Below 1025px the pill cannot
+   give it that with any margin to spare (at 800px the slack is 2px, which one
+   font-metric difference turns into a clipped row), so it becomes a burger. */
+@media (max-width: 1024px) {
+  #pf-nav { padding: 0 14px !important; }
+  #pf-nav-pill { position: relative; }
+  /* burger sits in the left corner, logo beside it, CTA stays right */
+  #pf-nav-burger { display: flex !important; order: -1; }
+  #pf-nav-pill > a[href="#top"] { margin-right: auto; }
+  #pf-nav-links {
+    display: none !important;
+    position: absolute; top: calc(100% + 12px); left: 0; right: 0;
+    flex-direction: row !important; align-items: center !important; gap: 2px !important;
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    background: #ffffff; z-index: 2;
+    border: 1px solid rgba(22,45,54,.1); border-radius: 999px; padding: 7px 10px;
+    box-shadow: 0 24px 48px -24px rgba(22,45,54,.4);
+  }
+  #pf-nav-links::-webkit-scrollbar { display: none; }
+  #pf-nav-pill[data-open="true"] #pf-nav-links { display: flex !important; }
+  /* links keep their width and scroll sideways rather than squashing */
+  #pf-nav-links a { flex: 0 0 auto; white-space: nowrap; padding: 10px 14px !important; }
+  /* keep the pill on one line: logo + burger + CTA */
+  #pf-nav-pill { gap: 10px !important; padding: 8px !important; }
+  #pf-nav-pill > a[href="#contact"] { white-space: nowrap; padding: 9px 15px !important; font-size: 13px !important; }
+}
+@media (max-width: 640px) {
+  [data-rsp="hero"] h1 { font-size: clamp(32px, 8.5vw, 44px) !important; }
+  [data-rsp="stats"] { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; margin-top: 48px !important; }
+  [data-rsp="cards3"] { grid-template-columns: 1fr !important; }
+  [data-rsp="case"] { padding: 28px 22px !important; border-radius: 22px !important; }
+  [data-rsp="bignum"] { font-size: 104px !important; top: -18px !important; }
+  [data-rsp="chip"] { font-size: 11px !important; padding: 7px 11px !important; }
+  #top { padding: 120px 18px 0 !important; }
+  #work { padding: 72px 18px 32px !important; }
+  #experience { padding: 72px 18px !important; }
+  #on-camera { padding: 64px 20px !important; margin: 0 10px !important; }
+  #skills { padding: 72px 18px !important; }
+  #certifications { padding: 72px 18px 64px !important; }
+  #awards { padding: 72px 18px !important; }
+  #contact { padding: 80px 18px 0 !important; margin: 0 10px 10px !important; }
+}
+@media (max-width: 380px) {
+  [data-rsp="stats"] { grid-template-columns: 1fr !important; }
+}
 </style>
 </helmet>
 <div style="overflow-x: hidden;">
@@ -32,19 +91,24 @@ a:hover { color: #96543C; }
       <span style="width: 30px; height: 30px; border-radius: 50%; background: var(--pf-accent, #C06F52); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 800;">PB</span>
       parul.builds
     </a>
-    <div style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600;">
+    <div id="pf-nav-links" style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600;">
       <a href="#work" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Work</a>
       <a href="#experience" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Experience</a>
       <a href="#skills" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Skills</a>
       <a href="#certifications" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Certifications</a>
       <a href="#awards" style="color: #162D36; padding: 8px 14px; border-radius: 999px; transition: background .2s;" style-hover="background: #F3EBE2; color: #162D36;">Awards</a>
     </div>
+    <button id="pf-nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="pf-nav-links" style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 40px; height: 40px; flex: 0 0 auto; padding: 0; border: 1px solid rgba(22,45,54,.12); background: #ffffff; border-radius: 999px; cursor: pointer;">
+      <span aria-hidden="true" style="display: block; width: 16px; height: 2px; border-radius: 2px; background: #162D36;"></span>
+      <span aria-hidden="true" style="display: block; width: 16px; height: 2px; border-radius: 2px; background: #162D36;"></span>
+      <span aria-hidden="true" style="display: block; width: 16px; height: 2px; border-radius: 2px; background: #162D36;"></span>
+    </button>
     <a href="#contact" style="background: #162D36; color: #ffffff; padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 700; transition: background .2s, transform .2s;" style-hover="background: var(--pf-accent, #C06F52); color: #ffffff; transform: translateY(-1px);">Say hello</a>
   </div>
 </nav>
 
 <header id="top" data-screen-label="Hero" style="position: relative; padding: 170px 24px 0;">
-  <div style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center;">
+  <div data-rsp="hero" style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center;">
     <div style="display: flex; flex-direction: column; gap: 24px;">
       <sc-if value="{{ showOpenToWork }}" hint-placeholder-val="{{ true }}">
         <div data-reveal="0" style="display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; background: #F3EBE2; border-radius: 999px; padding: 8px 16px; font-size: 13px; font-weight: 700;">
@@ -65,16 +129,16 @@ a:hover { color: #96543C; }
     </div>
     <div data-reveal="150" style="position: relative; justify-self: center;">
       <div style="position: absolute; inset: -28px; border-radius: 50%; background: radial-gradient(circle at 30% 20%, #F3EBE2 0%, rgba(243,235,226,0) 70%);"></div>
-      <div style="position: relative; width: min(380px, 34vw); aspect-ratio: 4/5;">
+      <div data-rsp="portrait" style="position: relative; width: min(380px, 34vw); aspect-ratio: 4/5;">
         <div style="position: absolute; inset: 0; border-radius: 32px; border: 1.5px solid #D8AD56; transform: rotate(-3deg); pointer-events: none;"></div>
         <img id="hero-portrait" src="./assets/parul.jpg" alt="Parul Bhoite" width="880" height="1100" style="position: relative; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; border-radius: 32px; background: #F3EBE2; box-shadow: 0 30px 60px -30px rgba(22,45,54,.45);">
-        <div style="position: absolute; top: 18px; left: -24px; white-space: nowrap; background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.35); animation: pf-float 5s ease-in-out infinite; pointer-events: none;">🕸️ Multi-agent systems</div>
-        <div style="position: absolute; bottom: 96px; right: -12px; white-space: nowrap; background: #162D36; color: #F3EBE2; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.5); animation: pf-float2 6s ease-in-out infinite; animation-delay: .8s; pointer-events: none;">RAG · LangGraph · K8s</div>
-        <div style="position: absolute; bottom: -18px; left: 24px; background: #D8AD56; color: #162D36; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 800; box-shadow: 0 12px 28px -14px rgba(22,45,54,.4); animation: pf-float 5.5s ease-in-out infinite; animation-delay: 1.6s; pointer-events: none;">99.9% uptime club</div>
+        <div data-rsp="chip" style="position: absolute; top: 18px; left: -24px; white-space: nowrap; background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.35); animation: pf-float 5s ease-in-out infinite; pointer-events: none;">🕸️ Multi-agent systems</div>
+        <div data-rsp="chip" style="position: absolute; bottom: 96px; right: -12px; white-space: nowrap; background: #162D36; color: #F3EBE2; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px -14px rgba(22,45,54,.5); animation: pf-float2 6s ease-in-out infinite; animation-delay: .8s; pointer-events: none;">RAG · LangGraph · K8s</div>
+        <div data-rsp="chip" style="position: absolute; bottom: -18px; left: 24px; background: #D8AD56; color: #162D36; border-radius: 14px; padding: 10px 16px; font-size: 13px; font-weight: 800; box-shadow: 0 12px 28px -14px rgba(22,45,54,.4); animation: pf-float 5.5s ease-in-out infinite; animation-delay: 1.6s; pointer-events: none;">99.9% uptime club</div>
       </div>
     </div>
   </div>
-  <div data-reveal="240" style="max-width: 1160px; margin: 72px auto 0; border-top: 1px solid rgba(22,45,54,.1); display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 36px 0 28px;">
+  <div data-rsp="stats" data-reveal="240" style="max-width: 1160px; margin: 72px auto 0; border-top: 1px solid rgba(22,45,54,.1); display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 36px 0 28px;">
     <div style="display: flex; flex-direction: column; gap: 4px;">
       <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums;"><span data-count="10">0</span>+</span>
       <span style="font-size: 13px; font-weight: 600; color: #44585F;">Enterprise AI solutions shipped</span>
@@ -109,8 +173,8 @@ a:hover { color: #96543C; }
       <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44585F; text-wrap: pretty;">Six categories of things I've designed, built, and kept alive in production. Details are generalized for confidentiality — the architecture and the impact are very real.</p>
     </div>
 
-    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">01</span>
+    <article data-rsp="case" data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">01</span>
       <div style="display: flex; flex-direction: column; gap: 18px;">
         <span style="align-self: flex-start; background: #162D36; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Observability</span>
         <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Multi-Agent Orchestration &amp; Observability</h3>
@@ -152,8 +216,8 @@ a:hover { color: #96543C; }
       </div>
     </article>
 
-    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">02</span>
+    <article data-rsp="case" data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">02</span>
       <div style="aspect-ratio: 4/3; position: relative;">
         <svg viewBox="0 0 400 300" role="img" aria-label="Stylized AI assistant chat retrieving answers from documents" style="position: absolute; inset: 0; width: 100%; height: 100%;">
           <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
@@ -197,8 +261,8 @@ a:hover { color: #96543C; }
       </div>
     </article>
 
-    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">03</span>
+    <article data-rsp="case" data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">03</span>
       <div style="display: flex; flex-direction: column; gap: 18px;">
         <span style="align-self: flex-start; background: #D8AD56; color: #162D36; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Platform</span>
         <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Multi-Tenant AI Platforms &amp; Infrastructure</h3>
@@ -253,8 +317,8 @@ a:hover { color: #96543C; }
       </div>
     </article>
 
-    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">04</span>
+    <article data-rsp="case" data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(192,111,82,.14); line-height: 1; pointer-events: none;">04</span>
       <div style="aspect-ratio: 4/3; position: relative;">
         <svg viewBox="0 0 400 300" role="img" aria-label="Stylized risk map with location pins, a scoring gauge and an audit checklist" style="position: absolute; inset: 0; width: 100%; height: 100%;">
           <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
@@ -298,8 +362,8 @@ a:hover { color: #96543C; }
       </div>
     </article>
 
-    <article data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">05</span>
+    <article data-rsp="case" data-reveal="0" style="background: #F3EBE2; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; right: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(73,99,73,.12); line-height: 1; pointer-events: none;">05</span>
       <div style="display: flex; flex-direction: column; gap: 18px;">
         <span style="align-self: flex-start; background: #162D36; color: #F3EBE2; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Security</span>
         <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.01em;">Cloud Security &amp; Kubernetes Compliance</h3>
@@ -336,8 +400,8 @@ a:hover { color: #96543C; }
       </div>
     </article>
 
-    <article data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
-      <span aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">06</span>
+    <article data-rsp="case" data-reveal="0" style="background: #ffffff; border: 1px solid rgba(22,45,54,.1); border-radius: 28px; padding: 48px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(22,45,54,.28);">
+      <span data-rsp="bignum" aria-hidden="true" style="position: absolute; top: -34px; left: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 180px; font-weight: 800; color: rgba(216,173,86,.22); line-height: 1; pointer-events: none;">06</span>
       <div style="aspect-ratio: 4/3; position: relative;">
         <svg viewBox="0 0 400 300" role="img" aria-label="Stylized mobile app for vehicle service operations" style="position: absolute; inset: 0; width: 100%; height: 100%;">
           <rect width="400" height="300" rx="20" fill="#F3EBE2"/>
@@ -390,7 +454,7 @@ a:hover { color: #96543C; }
 </section>
 
 <section id="experience" data-screen-label="Experience" style="padding: 110px 24px;">
-  <div style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start;">
+  <div data-rsp="split" style="max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start;">
     <div data-reveal="0" style="display: flex; flex-direction: column; gap: 14px; position: sticky; top: 120px;">
       <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">The journey</span>
       <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Where I've been building.</h2>
@@ -481,7 +545,7 @@ a:hover { color: #96543C; }
       <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">The toolkit</span>
       <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Full stack, plus the AI layer on top.</h2>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div data-rsp="cards3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
       <div data-reveal="0" style="background: #ffffff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease;" style-hover="transform: translateY(-4px);">
         <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--pf-accent, #C06F52);"></span>GenAI &amp; Agentic Systems</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 600;">
@@ -574,7 +638,7 @@ a:hover { color: #96543C; }
       <span style="font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-accent, #C06F52);">Nice things people said</span>
       <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;">Recognition along the way.</h2>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div data-rsp="cards3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
       <div data-reveal="0" style="border: 1px solid rgba(22,45,54,.1); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s ease, box-shadow .25s ease;" style-hover="transform: translateY(-4px); box-shadow: 0 20px 40px -22px rgba(22,45,54,.3);">
         <span style="width: 44px; height: 44px; border-radius: 50%; background: #D8AD56; display: grid; place-items: center; font-size: 20px;">🏆</span>
         <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800;">Maestro Award — Best Contributor</h3>
@@ -717,6 +781,41 @@ class Component extends DCLogic {
       // someone who asked for less motion gets a still frame and a play button
       if (reduce) { reel.controls = true; this._reduceReel = true; }
     }
+    // mobile nav: the link row becomes a dropdown panel under the pill
+    const pill = document.getElementById('pf-nav-pill');
+    const burger = document.getElementById('pf-nav-burger');
+    const navLinks = document.getElementById('pf-nav-links');
+    if (pill && burger && navLinks) {
+      this._setNav = open => {
+        pill.setAttribute('data-open', open ? 'true' : 'false');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      };
+      this._setNav(false);
+      this._navToggle = e => {
+        e.stopPropagation();
+        this._setNav(pill.getAttribute('data-open') !== 'true');
+      };
+      burger.addEventListener('click', this._navToggle);
+      // picking a destination closes it
+      this._navPick = e => { if (e.target.closest('a')) this._setNav(false); };
+      navLinks.addEventListener('click', this._navPick);
+      // tapping outside, or Escape, closes it
+      this._navAway = e => { if (!pill.contains(e.target)) this._setNav(false); };
+      document.addEventListener('click', this._navAway);
+      this._navEsc = e => {
+        if (e.key !== 'Escape' || pill.getAttribute('data-open') !== 'true') return;
+        this._setNav(false);
+        burger.focus();
+      };
+      document.addEventListener('keydown', this._navEsc);
+      // never leave it stuck open when it widens back to the inline row.
+      // Reads the burger's own visibility so the breakpoint lives only in CSS.
+      this._navResize = () => {
+        if (getComputedStyle(burger).display === 'none') this._setNav(false);
+      };
+      window.addEventListener('resize', this._navResize);
+    }
     // nav shadow on scroll
     this._onScroll = () => {
       const pill = document.getElementById('pf-nav-pill');
@@ -751,6 +850,9 @@ class Component extends DCLogic {
     if (this._rio) this._rio.disconnect();
     if (this._pio) this._pio.disconnect();
     window.removeEventListener('scroll', this._onScroll);
+    document.removeEventListener('click', this._navAway);
+    document.removeEventListener('keydown', this._navEsc);
+    window.removeEventListener('resize', this._navResize);
   }
   applyAccent() {
     const map = { terracotta: '#C06F52', forest: '#496349', mustard: '#D8AD56' };
